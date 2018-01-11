@@ -57,16 +57,18 @@ public class Practice02HsvEvaluatorLayout extends RelativeLayout {
 
         @Override
         public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
+            // 把ARGB 转换成 HSV (色相，饱和度，明度)      //   HSL (色相，饱和度，亮度)
             Color.colorToHSV(startValue, startHsv);
             Color.colorToHSV(endValue, endHsv);
 
+            //   计算当前完成度所对应的颜色值和透明度
             if (endHsv[0] - startHsv[0] > 180) {
                 endHsv[0] -= 360;
             } else if (endHsv[0] - startHsv[0] < -180) {
                 endHsv[0] += 360;
             }
 
-            outHsv[0] = startHsv[0] + (endHsv[0] - startHsv[0]) * fraction;
+            outHsv[0] = startHsv[0] + (endHsv[0] - startHsv[0]) * fraction;   //  fraction 完成百分比
             if (outHsv[0] > 360) {
                 outHsv[0] -= 360;
             } else if (outHsv[0] < 0) {
@@ -79,7 +81,7 @@ public class Practice02HsvEvaluatorLayout extends RelativeLayout {
             int alpha = startValue >>24 + (int) ((endValue >> 24 -startValue >> 24)*fraction);
 
 
-
+            // 把HSV转换回  ARGB
             return Color.HSVToColor(alpha,outHsv);
         }
     }
